@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holi Celebration</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pacifico', cursive;
+            text-align: center;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Gradient Animated Background */
+        .gradient-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff);
+            background-size: 400% 400%;
+            animation: gradientAnimation 4s infinite alternate;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .container {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-shadow: 2px 2px 5px black;
+            color: white;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 1.2rem;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            outline: none;
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            width: 80%;
+            max-width: 300px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 12px 24px;
+            font-size: 1.5rem;
+            background-color: #ffcc00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            width: 80%;
+            max-width: 250px;
+        }
+
+        button:hover {
+            background-color: #ff6600;
+            transform: scale(1.1);
+        }
+
+        .holi-container {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            padding: 20px;
+        }
+
+        img {
+            width: 80%;
+            max-width: 300px;
+            margin-top: 20px;
+        }
+
+        /* Floating Color Powder Animation */
+        .color-splash {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: float 3s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+
+    <!-- Name Input Screen -->
+    <div id="nameScreen" class="container">
+        <h1>Welcome to the Holi Celebration!</h1>
+        <p style="font-size: 1.2rem; color: white;">Enter your name to get started:</p>
+        <input type="text" id="nameInput" placeholder="Enter your name">
+        <button onclick="startHoli()">Celebrate!</button>
+    </div>
+
+    <!-- Holi Celebration Screen -->
+    <div id="holiScreen" class="holi-container">
+        <h1 id="greeting"></h1>
+        <img src="hol.gif" alt="Happy Holi GIF">
+    </div>
+
+    <script>
+        function startHoli() {
+            let name = document.getElementById("nameInput").value.trim();
+            if (name === "") {
+                alert("Please enter your name!");
+                return;
+            }
+
+            document.getElementById("nameScreen").style.display = "none";
+            document.getElementById("holiScreen").style.display = "flex";
+            document.getElementById("greeting").innerText = `Happy Holi, ${name}!`;
+
+            createColorSplashes();
+        }
+
+        function createColorSplashes() {
+            const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink"];
+            setInterval(() => {
+                let splash = document.createElement("div");
+                splash.classList.add("color-splash");
+                splash.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                splash.style.left = Math.random() * window.innerWidth + "px";
+                splash.style.top = window.innerHeight + "px";
+                document.body.appendChild(splash);
+                setTimeout(() => splash.remove(), 3000);
+            }, 200);
+        }
+
+        document.addEventListener("click", function(event) {
+            const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink"];
+            const splash = document.createElement("div");
+            splash.classList.add("color-splash");
+            splash.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            splash.style.left = `${event.clientX - 25}px`;
+            splash.style.top = `${event.clientY - 25}px`;
+            document.body.appendChild(splash);
+            setTimeout(() => splash.remove(), 1000);
+        });
+
+        document.addEventListener("touchstart", function(event) {
+            const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink"];
+            const splash = document.createElement("div");
+            splash.classList.add("color-splash");
+            splash.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            splash.style.left = `${event.touches[0].clientX - 25}px`;
+            splash.style.top = `${event.touches[0].clientY - 25}px`;
+            document.body.appendChild(splash);
+            setTimeout(() => splash.remove(), 1000);
+        });
+    </script>
+</body>
+</html>
